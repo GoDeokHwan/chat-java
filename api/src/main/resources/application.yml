@@ -1,0 +1,60 @@
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+chat:
+  db:
+    transction:
+      timeout: 1000
+    hikari:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      connectionTimeout: 3000                 # (POOL) This property controls the maximum number of milliseconds that a client (that's you) will wait for a connection from the pool.
+      validationTimeout: 1000                 # (POOL) This property controls the maximum amount of time that a connection will be tested for aliveness. This value must be less than the connectionTimeout.
+      maxLifetime: 1800000                    # (POOL) This property controls the maximum lifetime of a connection in the pool. default 1800000 ( 30min)
+      initializationFailTimeout: 0            # (POOL) This property controls whether the pool will "fail fast" if the pool cannot be seeded with an initial connection successfully. Default: 1
+      dataSource.useServerPrepStmts: false    # (MYSQL) recommended for performance. true 로 할경우 utc 기반의 batch 실행시 날짜가 두번 계산되어서 일단 꺼둠
+      dataSource.cachePrepStmts: true
+      dataSource.prepStmtCacheSize: 250
+      dataSource.prepStmtCacheSqlLimit: 2048
+      dataSource.autoReconnect: true          # (MYSQL) 5.1.45 이상버전에서만 true 로 변경할것( Bug #27040063, Bug #88242 )
+      dataSource.connectTimeout: 2000         # (MYSQL) connectTimeout
+      dataSource.socketTimeout: 5000          # (MYSQL) socketTimeout
+      dataSource.useTimezone: true
+      dataSource.serverTimezone: UTC
+      dataSource.useAffectedRows: true
+      dataSource.useSSL: false
+      dataSource.rewriteBatchedStatements: true
+      dataSource.sendFractionalSeconds: false
+      username: develop
+      password: go8426!@
+      jdbcUrl: jdbc:mysql://localhost:3306/chatdb?serverTimezone=Asia/Seoul
+      maximumPoolSize: 10
+    jpa:
+      hibernate.physical_naming_strategy: io.chat.java.api.config.db.LowerUnderScoreNamingStrategy
+      hibernate.show_sql: false
+      hibernate.format_sql: false
+      hibernate.globally_quoted_identifiers: true
+      hibernate.globally_quoted_identifiers_skip_column_definitions: true
+      hibernate.jdbc.batch_size: 30
+      hibernate.order_inserts: true
+      hibernate.order_updates: true
+      hibernate.default_batch_fetch_size: 30
+      hibernate.ddl-auto: create-drop
+      hibernate.generate-ddl: true
+  http:
+    readTimeout: 10000
+    connectTimeout: 3000
+    maxTotal: 1000
+    defaultMaxPerRoute: 1000
+  thread:
+    corePoolSize: 3
+    maxPoolSize: 30
+    queueCapacity: 10
+
+server:
+  port: 8180
+
+logging:
+  config: classpath:logging/logback.xml
+

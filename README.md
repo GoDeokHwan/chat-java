@@ -27,6 +27,7 @@ chat-java
           ㄴ java 
            ㄴ config   : Spring 설정
            ㄴ domain   : 보안 정책을 받으면서 사용 될 API 패키지
+           ㄴ entity   : DB Entity 패키지 
            ㄴ external : 보안 정책 없이 외부에서 들어 올 수 있는 패키지
            ㄴ supoort  : 외부 라이브러리를 이용해서 도움되는 패키지 
            ㄴ util     : 사용중에 공통으로 도움이 되는 패키지
@@ -40,3 +41,4 @@ chat-java
 - 21.10.23
 1. 프로세스 확인 Rest API 추가
 2. Controller Test Case 추가 테스트 
+3. Mysql DB 연결
