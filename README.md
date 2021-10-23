@@ -35,6 +35,23 @@ chat-java
             ㄴ logging : 로그 설정 
             application.yml : 전체적인 Spring 설정 yml            
 ```
+***
+## 📜 DB ERD
+![img.png](img.png)
+
+1. 테이블 설명
+- user : 사용자 정보
+- chat_room : 채팅
+- chat_message : 채팅 메시지
+- chat_room_user_mapping : 채팅에 들어오는 사용자
+
+2. 테이블 관리 해당 문서로 관리 합니다.
+```
+resource
+  ㄴ chat_erd.mwb
+  ㄴ schema-create.sql
+```
+
 
 ***
 ## 📜 변경 사항
@@ -42,3 +59,4 @@ chat-java
 1. 프로세스 확인 Rest API 추가
 2. Controller Test Case 추가 테스트 
 3. Mysql DB 연결
+4. Mysql ERD 설계 완료 
