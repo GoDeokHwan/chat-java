@@ -15,6 +15,7 @@ Git : https://github.com/GoDeokHwan/chat-front
 - JPA
 - Mysql
 - H2
+- Junit5
 
 ***
 ## 📜 폴더구조
@@ -36,3 +37,6 @@ chat-java
 
 ***
 ## 📜 변경 사항
+- 21.10.23
+1. 프로세스 확인 Rest API 추가
+2. Controller Test Case 추가 테스트 
