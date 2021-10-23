@@ -60,3 +60,4 @@ resource
 2. Controller Test Case 추가 테스트 
 3. Mysql DB 연결
 4. Mysql ERD 설계 완료 
+5. Jpa 정상 동작 확인
