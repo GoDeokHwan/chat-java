@@ -2,6 +2,7 @@ package io.chat.java.api.entity.user;
 
 import io.chat.java.api.entity.chat.ChatMessage;
 import io.chat.java.api.entity.chat.ChatRoom;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,4 +40,12 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY)
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
+    @Builder
+    public User(Long id, String loginId, String password, String token, String name) {
+        this.id = id;
+        this.loginId = loginId;
+        this.password = password;
+        this.token = token;
+        this.name = name;
+    }
 }
