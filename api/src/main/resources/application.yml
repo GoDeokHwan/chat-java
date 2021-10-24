@@ -52,6 +52,12 @@ chat:
     corePoolSize: 3
     maxPoolSize: 30
     queueCapacity: 10
+  jwt:
+    header: Authorization
+    secret: '@chat-java-secret'
+    authPath: /auth/login
+    expiration: 86400000
+
 
 server:
   port: 8180

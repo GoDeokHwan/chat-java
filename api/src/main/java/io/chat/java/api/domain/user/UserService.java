@@ -1,16 +1,17 @@
 package io.chat.java.api.domain.user;
 
+import io.chat.java.api.domain.user.model.AuthenticationUserDetails;
 import io.chat.java.api.domain.user.model.UserRequest;
 import io.chat.java.api.entity.user.User;
 import io.chat.java.api.entity.user.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
+@Transactional
 public class UserService {
 
     final UserRepository userRepository;
@@ -36,4 +37,31 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public AuthenticationUserDetails loadUserDetails(String loginId, String password) throws Exception {
+        User user = userRepository.findByLoginId(loginId).orElseGet(User::new);
+
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return AuthenticationUserDetails.builder()
+                    .loginId(user.getLoginId())
+                    .name(user.getName())
+                    .build();
+        } else {
+            throw new Exception();
+        }
+    }
+
+    public void saveToken(String loginId, String token) throws Exception {
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new Exception());
+
+        user.setToken(token);
+        userRepository.save(user);
+    }
+
+    public boolean validTokenKey(String loginId, String token) throws Exception {
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new Exception());
+
+        return token.equals(user.getToken());
+    }
 }

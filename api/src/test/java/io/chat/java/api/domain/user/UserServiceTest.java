@@ -30,9 +30,9 @@ class UserServiceTest {
     public void 상담사_생성 () {
         // given
         UserRequest request = new UserRequest();
-        request.setLoginId("user02");
+        request.setLoginId("user03");
         request.setPassword("1234");
-        request.setName("사용자2");
+        request.setName("사용자3");
 
         // when
         userService.save(request);

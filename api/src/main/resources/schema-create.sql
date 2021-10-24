@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `chatdb`.`user` (
                                                `id` INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
                                                `login_id` VARCHAR(45) NOT NULL COMMENT '로그인 ID',
                                                `password` VARCHAR(200) NOT NULL COMMENT '비밀번호 ',
-                                               `token` VARCHAR(200) NULL COMMENT '토큰',
+                                               `token` VARCHAR(500) NULL COMMENT '토큰',
                                                `name` VARCHAR(45) NULL COMMENT '이름 ',
                                                PRIMARY KEY (`id`),
                                                UNIQUE INDEX `login_id_UNIQUE` (`login_id` ASC) VISIBLE)
