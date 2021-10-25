@@ -55,6 +55,10 @@ resource
 
 ***
 ## 📜 변경 사항
+- 21.10.25
+1. GlobalException 추가
+2. Rest API Connection Config 설정 
+
 - 21.10.24
 1. 사용자 추가 케이스 추가 (회원가입을 따로 구현을 하지 않을 예정입니다.)
 2. Security 적용 
