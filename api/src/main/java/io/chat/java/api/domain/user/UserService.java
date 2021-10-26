@@ -2,8 +2,11 @@ package io.chat.java.api.domain.user;
 
 import io.chat.java.api.domain.user.model.AuthenticationUserDetails;
 import io.chat.java.api.domain.user.model.UserRequest;
+import io.chat.java.api.domain.user.model.UserView;
 import io.chat.java.api.entity.user.User;
 import io.chat.java.api.entity.user.UserRepository;
+import io.chat.java.api.support.ApiException;
+import io.chat.java.api.support.ApiStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -64,4 +67,10 @@ public class UserService {
 
         return token.equals(user.getToken());
     }
+
+    public User findByUserId(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ApiException(ApiStatus.USER_NOT_FOUND));
+    }
+
+
 }

@@ -1,0 +1,30 @@
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      database-platform: org.hibernate.dialect.H2Dialect
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.H2Dialect
+      hibernate:
+        ddl-auto: none
+        format_sql: true
+  datasource:
+    initialization-mode: always
+
+
+chat:
+  db:
+    transction:
+      timeout: 1000
+    hikari:
+      driverClassName: org.h2.Driver
+      username: sa
+      password:
+      jdbcUrl: jdbc:h2:mem:chatdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    jpa:
+      hibernate.ddl-auto: create
+      hibernate.generate-ddl: true
+

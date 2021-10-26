@@ -21,7 +21,10 @@ public enum ApiStatus implements ApiStatusResponsible {
     , IS_NOT_ADMIN_LOGIN(-8, "상담원을 찾을 수 없습니다", false)
     , IS_NOT_AGENT_LOGIN(-9, "상담원을 찾을 수 없습니다", false)
     , BRAND_IS_NOT_SHOW(-10, "존재하지 않는 브랜드입니다", true)
-    , NOT_AUTHORIZED(-11, "아직 역할이 부여되지 않았습니다. 최고 관리자에게 역할 부여를 확인 후 다시 시도해주세요.", false),
+    , NOT_AUTHORIZED(-11, "아직 역할이 부여되지 않았습니다. 최고 관리자에게 역할 부여를 확인 후 다시 시도해주세요.", false)
+
+    // 사용자
+    , USER_NOT_FOUND(-100, "사용자를 찾을 수가 없습니다.", true)
     ;
 
     private Integer code;

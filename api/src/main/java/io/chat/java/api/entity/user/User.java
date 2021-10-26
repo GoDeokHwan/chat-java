@@ -1,5 +1,6 @@
 package io.chat.java.api.entity.user;
 
+import io.chat.java.api.domain.user.model.UserView;
 import io.chat.java.api.entity.chat.ChatMessage;
 import io.chat.java.api.entity.chat.ChatRoom;
 import lombok.Builder;
@@ -47,5 +48,11 @@ public class User {
         this.password = password;
         this.token = token;
         this.name = name;
+    }
+    public UserView convertUserView() {
+        return UserView.builder()
+                .id(id)
+                .name(name)
+                .build();
     }
 }

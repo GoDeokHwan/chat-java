@@ -28,4 +28,15 @@ class ChatControllerTest {
         ).andExpect(status().isOk())
         ;
     }
+
+    @Test
+    public void 사용자_채팅_리스트 () throws Exception {
+
+    }
+
+    @Test
+    public void 채팅_상세내용() throws Exception {
+
+    }
+
 }

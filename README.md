@@ -55,6 +55,10 @@ resource
 
 ***
 ## 📜 변경 사항
+- 21.10.26
+1. Spring boot Test H2 메모리 DB로 연결 
+2. ChatRoom 생성 Service 추가 
+
 - 21.10.25
 1. GlobalException 추가
 2. Rest API Connection Config 설정 
