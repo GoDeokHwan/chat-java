@@ -9,8 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,15 +44,25 @@ class ChatServiceTest {
 
         // then
         assertThat(chatRoomView.getUserView().getId()).isEqualTo(userId);
+        assertThat(chatRoomView.getMappingUsers().size()).isEqualTo(1);
     }
 
 
     @Test
+    @Transactional
     public void 사용자_채팅_리스트 () throws Exception {
+        // given
+        Long userId = 1l;
 
+        // when
+        List<ChatRoomView> chatRoomViews = chatService.listByUserId(userId);
+
+        // then
+        assertThat(chatRoomViews.size()).isEqualTo(3);
     }
 
     @Test
+    @Transactional
     public void 채팅_상세내용() throws Exception {
 
     }

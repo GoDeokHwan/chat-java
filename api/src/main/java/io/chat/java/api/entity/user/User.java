@@ -11,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Getter
@@ -34,8 +36,7 @@ public class User {
     @Column
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "chat_room_user_mapping", schema = "chatdb")
+    @ManyToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<ChatRoom> chatRooms = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -49,6 +50,7 @@ public class User {
         this.token = token;
         this.name = name;
     }
+
     public UserView convertUserView() {
         return UserView.builder()
                 .id(id)

@@ -33,11 +33,10 @@ ALTER TABLE chatdb.chat_room add primary key (`id`);
 CREATE TABLE chatdb.chat_room_user_mapping
 (
      `user_id` INT NOT NULL,
-     `chat_room_id` VARCHAR(45) NOT NULL
+     `chat_room_id` INT NOT NULL
 );
 
 ALTER TABLE chatdb.chat_room_user_mapping add primary key (`user_id`, `chat_room_id`);
-
 -- -----------------------------------------------------
 -- Table `chatdb`.`chat_message`
 -- -----------------------------------------------------

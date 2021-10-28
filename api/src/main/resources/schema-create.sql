@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `chatdb`.`chat_room` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `chatdb`.`chat_room_user_mapping` (
                                                                  `user_id` INT NOT NULL,
-                                                                 `chat_room_id` VARCHAR(45) NOT NULL,
+                                                                 `chat_room_id` INT NOT NULL,
                                                                  PRIMARY KEY (`user_id`, `chat_room_id`))
     ENGINE = InnoDB;
 

@@ -25,7 +25,7 @@ class UserControllerTest {
         mvc.perform(MockMvcRequestBuilders.post("/auth/login")
                         .header("X-Requested-With", "XMLHttpRequest")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"loginId\":\"user03\", \"password\":\"1234\"}")
+                        .content("{\"loginId\":\"user01\", \"password\":\"1234\"}")
                         .accept(MediaType.APPLICATION_JSON)
             ).andExpect(status().isOk())
         ;

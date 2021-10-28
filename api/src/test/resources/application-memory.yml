@@ -2,7 +2,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     properties:
       database-platform: org.hibernate.dialect.H2Dialect
       properties:
@@ -10,9 +10,9 @@ spring:
           dialect: org.hibernate.dialect.H2Dialect
       hibernate:
         ddl-auto: none
-        format_sql: true
+        format_sql: false
   datasource:
-    initialization-mode: always
+    initialization-mode: never
 
 
 chat:
@@ -25,6 +25,6 @@ chat:
       password:
       jdbcUrl: jdbc:h2:mem:chatdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
     jpa:
-      hibernate.ddl-auto: create
-      hibernate.generate-ddl: true
+      hibernate.ddl-auto: none
+      hibernate.generate-ddl: false
 

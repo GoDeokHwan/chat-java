@@ -2,7 +2,6 @@ package io.chat.java.api.domain.user;
 
 import io.chat.java.api.domain.user.model.AuthenticationUserDetails;
 import io.chat.java.api.domain.user.model.UserRequest;
-import io.chat.java.api.domain.user.model.UserView;
 import io.chat.java.api.entity.user.User;
 import io.chat.java.api.entity.user.UserRepository;
 import io.chat.java.api.support.ApiException;
@@ -10,11 +9,10 @@ import io.chat.java.api.support.ApiStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
-@Transactional
+//@Transactional
 public class UserService {
 
     final UserRepository userRepository;
@@ -33,15 +31,15 @@ public class UserService {
                 .name(request.getName())
                 .build();
 
-        if (userRepository.findByLoginId(request.getLoginId()).isPresent()) {
+        if (userRepository.findUserByLoginId(request.getLoginId()).isPresent()) {
             log.error("이미 존재하는 ID");
             return;
         }
         userRepository.save(user);
     }
 
-    public AuthenticationUserDetails loadUserDetails(String loginId, String password) throws Exception {
-        User user = userRepository.findByLoginId(loginId).orElseGet(User::new);
+    public AuthenticationUserDetails loadUserDetails(String loginId, String password) {
+        User user = userRepository.findUserByLoginId(loginId).orElseGet(User::new);
 
         if (passwordEncoder.matches(password, user.getPassword())) {
             return AuthenticationUserDetails.builder()
@@ -49,27 +47,27 @@ public class UserService {
                     .name(user.getName())
                     .build();
         } else {
-            throw new Exception();
+            throw new ApiException(ApiStatus.AUTHENTICATION);
         }
     }
 
-    public void saveToken(String loginId, String token) throws Exception {
-        User user = userRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new Exception());
+    public void saveToken(String loginId, String token) {
+        User user = userRepository.findUserByLoginId(loginId)
+                .orElseThrow(() -> new ApiException(ApiStatus.USER_NOT_FOUND));
 
         user.setToken(token);
         userRepository.save(user);
     }
 
-    public boolean validTokenKey(String loginId, String token) throws Exception {
-        User user = userRepository.findByLoginId(loginId)
-                .orElseThrow(() -> new Exception());
+    public boolean validTokenKey(String loginId, String token) {
+        User user = userRepository.findUserByLoginId(loginId)
+                .orElseThrow(() -> new ApiException(ApiStatus.USER_NOT_FOUND));
 
         return token.equals(user.getToken());
     }
 
     public User findByUserId(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new ApiException(ApiStatus.USER_NOT_FOUND));
+        return userRepository.findUserById(id).orElseThrow(() -> new ApiException(ApiStatus.USER_NOT_FOUND));
     }
 
 

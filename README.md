@@ -55,6 +55,17 @@ resource
 
 ***
 ## 📜 변경 사항
+- 21.10.28
+1. ChatRoom 생성
+2. 사용자에 ChatRoom 조회 
+
+※ 이슈 사항
+
+- Junit에서 Mapping Table을 못 읽은 현상 해결
+- @OneToMany에 Casecade.ALL 일 경우 save 오류 발생 해결 
+
+
+
 - 21.10.26
 1. Spring boot Test H2 메모리 DB로 연결 
 2. ChatRoom 생성 Service 추가 

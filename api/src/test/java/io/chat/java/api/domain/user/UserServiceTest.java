@@ -30,13 +30,13 @@ class UserServiceTest {
     public void 상담사_생성 () {
         // given
         UserRequest request = new UserRequest();
-        request.setLoginId("user04");
+        request.setLoginId("user01");
         request.setPassword("1234");
-        request.setName("사용자4");
+        request.setName("사용자1");
 
         // when
         userService.save(request);
-        Optional<User> user = userRepository.findByLoginId(request.getLoginId());
+        Optional<User> user = userRepository.findUserByLoginId(request.getLoginId());
 
         // then
         assertThat(user.get().getLoginId()).isEqualTo(request.getLoginId());

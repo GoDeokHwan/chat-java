@@ -13,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,20 +45,24 @@ public class ChatRoom {
     @Column
     private LocalDateTime endDate;
 
-    @ManyToMany(mappedBy = "chatRooms")
-    private List<User> mappingUsers = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "chat_room_user_mapping", schema = "chatdb"
+        , joinColumns = @JoinColumn(name = "chat_room_id")
+            , inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<User> users = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "chatRoom")
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
     @Builder
-    public ChatRoom(Long id, User createUser, LocalDateTime createDate, ChatRoomStatus status, LocalDateTime endDate, List<User> mappingUsers, List<ChatMessage> chatMessages) {
+    public ChatRoom(Long id, User createUser, LocalDateTime createDate, ChatRoomStatus status, LocalDateTime endDate, List<User> users, List<ChatMessage> chatMessages) {
         this.id = id;
         this.createUser = createUser;
         this.createDate = createDate;
         this.status = status;
         this.endDate = endDate;
-        this.mappingUsers = mappingUsers;
+        this.users = users;
         this.chatMessages = chatMessages;
     }
 
@@ -68,7 +74,7 @@ public class ChatRoom {
                 .chatRoomStatus(status)
                 .userView(createUser.convertUserView())
                 .createDate(createDate)
-                .mappingUsers(mappingUsers.stream().map(User::convertUserView).collect(Collectors.toList()))
+                .mappingUsers(users.stream().map(User::convertUserView).collect(Collectors.toList()))
                 .lastMessage(chatMessage.getContext())
                 .lastMessageTime(chatMessage.getSendTime())
                 .build();
