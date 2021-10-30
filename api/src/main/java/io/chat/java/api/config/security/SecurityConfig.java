@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,6 +22,9 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
@@ -61,13 +65,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/info"
+                , "/api/external/**"
+                , "/api/webSocket"
+                , "/api/publish/**"
+                , "/api/subscribe/**"
+            );
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .exceptionHandling().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().headers().frameOptions().disable()
                 .and().authorizeRequests().antMatchers("/api/**").authenticated()
-                .and().authorizeRequests().antMatchers("/info").permitAll()
+//                .and().authorizeRequests().antMatchers("/info").permitAll()
                 .and().authorizeRequests().antMatchers(jwtPropertiesLoader.getAuthPath()).permitAll()
-                .and().authorizeRequests().antMatchers("/api/external/**").permitAll()
+//                .and().authorizeRequests().antMatchers("/api/external/**").permitAll()
                 .and().addFilterBefore(buildAjaxLoginProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(), FilterSecurityInterceptor.class)
         ;
@@ -91,5 +107,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SkipPathRequestMatcher skipPathRequestMatcher() {
         List<String> pathsToSkip = Lists.newArrayList(jwtPropertiesLoader.getAuthPath());
         return new SkipPathRequestMatcher(pathsToSkip, API_ROOT_URL);
+    }
+
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("GET");
+        configuration.addAllowedMethod("POST");
+        configuration.addAllowedMethod("PUT");
+        configuration.addAllowedMethod("DELETE");
+        configuration.addAllowedMethod("PATCH");
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

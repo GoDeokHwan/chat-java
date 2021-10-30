@@ -1,5 +1,6 @@
 package io.chat.java.api.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -23,6 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("*")
                 .allowedHeaders("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                .allowCredentials(false)
                 .maxAge(3600L);
     }
 

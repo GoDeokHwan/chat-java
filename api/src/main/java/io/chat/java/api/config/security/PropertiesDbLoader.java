@@ -1,4 +1,4 @@
-package io.chat.java.api.config;
+package io.chat.java.api.config.security;
 
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import java.util.Properties;
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "chat.db")
-public class PropertiesLoader {
+public class PropertiesDbLoader {
 
     @NotNull
     private Properties hikari;
