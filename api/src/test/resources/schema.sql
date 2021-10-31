@@ -41,7 +41,7 @@ ALTER TABLE chatdb.chat_room_user_mapping add primary key (`user_id`, `chat_room
 -- Table `chatdb`.`chat_message`
 -- -----------------------------------------------------
 CREATE TABLE chatdb.chat_message (
-       `id` INT NOT NULL COMMENT 'ID',
+       `id` INT NOT NULL AUTO_INCREMENT COMMENT 'ID',
        `send_time` DATETIME NULL COMMENT '보내는 시간 ',
        `send_user_id` INT NULL COMMENT '보내는자ID',
        `context` TEXT NULL COMMENT '메시지 내용',

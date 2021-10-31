@@ -3,6 +3,8 @@ package io.chat.java.api.config.security.ajax;
 import io.chat.java.api.config.security.jwt.JwtUtil;
 import io.chat.java.api.domain.user.UserService;
 import io.chat.java.api.domain.user.model.AuthenticationUserDetails;
+import io.chat.java.api.support.ApiResult;
+import io.chat.java.api.support.ApiStatus;
 import io.chat.java.api.util.JsonHelper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         AuthenticationUserDetails authenticationUserDetails = (AuthenticationUserDetails) authentication.getPrincipal();
         String token = jwtUtil.createJwtToken(authenticationUserDetails);
+        userService.saveToken(jwtUtil.extractLoginId(token), token);
 
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
@@ -45,8 +48,7 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(Charset.forName("UTF-8").displayName());
         response.getWriter().write(JsonHelper.toJson(tokenMap));
-
-        userService.saveToken(jwtUtil.extractLoginId(token), token);
+        response.getWriter().flush();
 
         clearAuthenticationAttributes(request);
     }

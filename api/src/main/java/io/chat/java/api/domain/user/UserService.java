@@ -45,6 +45,7 @@ public class UserService {
             return AuthenticationUserDetails.builder()
                     .loginId(user.getLoginId())
                     .name(user.getName())
+                    .id(user.getId())
                     .build();
         } else {
             throw new ApiException(ApiStatus.AUTHENTICATION);

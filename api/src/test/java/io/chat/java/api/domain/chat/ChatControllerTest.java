@@ -63,7 +63,7 @@ class ChatControllerTest {
 
     @Test
     public void 사용자_채팅_리스트() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/v1/chat/1")
+        mvc.perform(MockMvcRequestBuilders.get("/api/v1/chat")
                 .header("X-Requested-With", "XMLHttpRequest")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -85,8 +85,15 @@ class ChatControllerTest {
     }
 
     @Test
-    public void 채팅_상세내용() throws Exception {
-
+    public void 채팅방_오픈 () throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/api/v1/chat/1")
+                .header("X-Requested-With", "XMLHttpRequest")
+                .header("Authorization", "Bearer " + token)
+                .content("{\"userId\": 1}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk())
+        ;
     }
 
 }

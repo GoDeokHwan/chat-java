@@ -15,11 +15,9 @@ public class ChatController {
         this.chatService = chatService;
     }
 
-    @GetMapping("/v1/chat/{id}")
-    public ApiResult findChatList(
-            @PathVariable(name = "id") Long id
-    ) {
-        return ApiResult.of(ApiStatus.SUCCESS, chatService.listByUserId(id));
+    @GetMapping("/v1/chat")
+    public ApiResult findChatList() {
+        return ApiResult.of(ApiStatus.SUCCESS, chatService.findChatList());
     }
 
     @PostMapping("/v1/chat")
@@ -27,6 +25,14 @@ public class ChatController {
             @RequestBody ChatRoomCreateRequest request
             ) {
         return ApiResult.of(ApiStatus.SUCCESS, chatService.create(request.getUserId()));
+    }
+
+    @GetMapping("/v1/chat/{chatRoomId}")
+    public ApiResult open(
+            @PathVariable(name = "chatRoomId") Long chatRoomId,
+            @RequestParam(name = "userId") Long userId
+    ) {
+        return ApiResult.of(ApiStatus.SUCCESS, chatService.open(chatRoomId, userId));
     }
 
 }

@@ -1,6 +1,8 @@
 package io.chat.java.api.entity.chat;
 
+import io.chat.java.api.domain.chat.model.ChatMessageView;
 import io.chat.java.api.entity.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,4 +38,22 @@ public class ChatMessage {
     @JoinColumn(name = "chat_room_id", referencedColumnName = "id")
     private ChatRoom chatRoom;
 
+    @Builder
+    public ChatMessage(Long id, LocalDateTime sendTime, User sendUser, String context, ChatRoom chatRoom) {
+        this.id = id;
+        this.sendTime = sendTime;
+        this.sendUser = sendUser;
+        this.context = context;
+        this.chatRoom = chatRoom;
+    }
+
+    public ChatMessageView toChatMessage() {
+        return ChatMessageView.builder()
+                .id(id)
+                .sendTime(sendTime)
+                .chatRoom(chatRoom.convertChatRoomView())
+                .context(context)
+                .sendUser(sendUser.convertUserView())
+                .build();
+    }
 }

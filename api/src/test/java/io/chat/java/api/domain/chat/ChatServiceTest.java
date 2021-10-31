@@ -2,6 +2,7 @@ package io.chat.java.api.domain.chat;
 
 import io.chat.java.api.config.ChatComponentTest;
 import io.chat.java.api.domain.chat.model.ChatRoomView;
+import io.chat.java.api.entity.chat.ChatMessage;
 import io.chat.java.api.entity.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +53,8 @@ class ChatServiceTest {
     @Transactional
     public void 사용자_채팅_리스트 () throws Exception {
         // given
-        Long userId = 1l;
-
         // when
-        List<ChatRoomView> chatRoomViews = chatService.listByUserId(userId);
+        List<ChatRoomView> chatRoomViews = chatService.findChatList();
 
         // then
         assertThat(chatRoomViews.size()).isEqualTo(3);
@@ -63,8 +62,16 @@ class ChatServiceTest {
 
     @Test
     @Transactional
-    public void 채팅_상세내용() throws Exception {
+    public void 채팅방_오픈() throws Exception {
+        // given
+        Long chatRoomId = 1l;
+        Long userId = 4l;
 
+        // when
+        List<ChatMessage> list = chatService.open(chatRoomId, userId);
+
+        // then
+        assertThat(list.size()).isEqualTo(1);
     }
 
 }

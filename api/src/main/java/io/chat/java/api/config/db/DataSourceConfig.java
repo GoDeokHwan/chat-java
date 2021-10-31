@@ -2,7 +2,7 @@ package io.chat.java.api.config.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import io.chat.java.api.config.PropertiesLoader;
+import io.chat.java.api.config.security.PropertiesDbLoader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,9 +24,9 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class DataSourceConfig {
 
-    final PropertiesLoader propertiesLoader;
+    final PropertiesDbLoader propertiesLoader;
 
-    public DataSourceConfig(PropertiesLoader propertiesLoader) {
+    public DataSourceConfig(PropertiesDbLoader propertiesLoader) {
         this.propertiesLoader = propertiesLoader;
     }
 

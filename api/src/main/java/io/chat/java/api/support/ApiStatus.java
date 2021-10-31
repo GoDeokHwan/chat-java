@@ -25,6 +25,9 @@ public enum ApiStatus implements ApiStatusResponsible {
 
     // 사용자
     , USER_NOT_FOUND(-100, "사용자를 찾을 수가 없습니다.", true)
+
+    // 챗룸
+    , CHAT_ROOM_NOT_FOUND(-200, "챗룸을 찾을 수 없습니다.", false)
     ;
 
     private Integer code;

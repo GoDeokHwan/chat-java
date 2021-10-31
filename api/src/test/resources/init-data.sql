@@ -29,3 +29,5 @@ insert into chatdb.chat_room_user_mapping(user_id, chat_room_id) values (3, 7);
 insert into chatdb.chat_room_user_mapping(user_id, chat_room_id) values (4, 8);
 insert into chatdb.chat_room_user_mapping(user_id, chat_room_id) values (4, 9);
 insert into chatdb.chat_room_user_mapping(user_id, chat_room_id) values (4, 10);
+
+insert into chatdb.chat_message(id, send_time, send_user_id, context, chat_room_id) values (null, '2021-10-27T20:09:29.014107', 1, '{"text":"Open 메시지"}', 1);

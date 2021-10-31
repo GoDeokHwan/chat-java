@@ -1,4 +1,4 @@
-package io.chat.java.api.support.websocket;
+package io.chat.java.api.domain.websocket;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -22,12 +22,10 @@ public class WebSocketEventListener {
     public void handleWebSocketConnectListener(SessionConnectedEvent event) {
         MessageHeaderAccessor accessor = NativeMessageHeaderAccessor.getAccessor(event.getMessage(), SimpMessageHeaderAccessor.class);
         GenericMessage genericMessage = (GenericMessage) accessor.getHeader("simpConnectMessage");
-        Map nativeHeader = (Map) genericMessage.getHeaders().get("nativeHeaders");
-        Long chatRoomId = (Long) ((List) nativeHeader.get("chatRoomId")).get(0);
-        Long userId = (Long)((List) nativeHeader.get("userId")).get(0);
+//        Map nativeHeader = (Map) genericMessage.getHeaders().get("nativeHeaders");
         String sessionId = (String) genericMessage.getHeaders().get("simpSessionId");
 
-        log.info("[Connected] room id : {} | user id : {} | websocket session id : {}", chatRoomId, userId, sessionId);
+        log.info("[Connected] websocket session id : {}", sessionId);
 
     }
 

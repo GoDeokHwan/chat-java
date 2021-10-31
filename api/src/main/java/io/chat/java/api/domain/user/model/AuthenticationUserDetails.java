@@ -13,13 +13,15 @@ public class AuthenticationUserDetails implements UserDetails, Authentication {
 
     private String loginId;
     private String name;
+    private Long id;
 
     public AuthenticationUserDetails() {
     }
     @Builder
-    public AuthenticationUserDetails(String loginId, String name) {
+    public AuthenticationUserDetails(String loginId, String name, Long id) {
         this.loginId = loginId;
         this.name = name;
+        this.id = id;
     }
 
     @Override

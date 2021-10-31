@@ -54,6 +54,7 @@ chat:
     corePoolSize: 3
     maxPoolSize: 30
     queueCapacity: 10
+    threadName: "Async-Executor-"
   jwt:
     header: Authorization
     secret: '@chat-java-secret'
