@@ -1,5 +1,6 @@
 package io.chat.java.api.domain.chat;
 
+import io.chat.java.api.domain.chat.model.ChatMessageRequest;
 import io.chat.java.api.domain.chat.model.ChatRoomCreateRequest;
 import io.chat.java.api.support.ApiResult;
 import io.chat.java.api.support.ApiStatus;
@@ -33,6 +34,16 @@ public class ChatController {
             @RequestParam(name = "userId") Long userId
     ) {
         return ApiResult.of(ApiStatus.SUCCESS, chatService.open(chatRoomId, userId));
+    }
+
+    @PostMapping("/v1/chat/{chatRoomId}")
+    public ApiResult send(
+            @PathVariable(name = "chatRoomId") Long chatRoomId,
+            @RequestBody ChatMessageRequest request
+            ) {
+        request.setChatRoomId(chatRoomId);
+        chatService.send(request);
+        return ApiResult.of(ApiStatus.SUCCESS);
     }
 
 }

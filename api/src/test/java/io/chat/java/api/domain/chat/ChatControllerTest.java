@@ -96,4 +96,17 @@ class ChatControllerTest {
         ;
     }
 
+    @Test
+    public void 채팅_메시지 () throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/api/v1/chat/1")
+                .header("X-Requested-With", "XMLHttpRequest")
+                .header("Authorization", "Bearer " + token)
+                .header("Content-Type", "application/json")
+                .content("{\"userId\": 1,\"text\":\"메시지가 왔어요 메시지가\"}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk())
+        ;
+    }
+
 }

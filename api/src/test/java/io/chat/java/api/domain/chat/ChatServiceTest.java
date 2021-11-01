@@ -1,6 +1,8 @@
 package io.chat.java.api.domain.chat;
 
 import io.chat.java.api.config.ChatComponentTest;
+import io.chat.java.api.domain.chat.model.ChatMessageRequest;
+import io.chat.java.api.domain.chat.model.ChatMessageView;
 import io.chat.java.api.domain.chat.model.ChatRoomView;
 import io.chat.java.api.entity.chat.ChatMessage;
 import io.chat.java.api.entity.user.UserRepository;
@@ -68,10 +70,27 @@ class ChatServiceTest {
         Long userId = 4l;
 
         // when
-        List<ChatMessage> list = chatService.open(chatRoomId, userId);
+        List<ChatMessageView> list = chatService.open(chatRoomId, userId);
 
         // then
         assertThat(list.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void 메시지_발송() throws Exception {
+        // given
+        ChatMessageRequest request = ChatMessageRequest.builder()
+                .userId(2l)
+                .chatRoomId(1l)
+                .text("메시지 좋고좋고좋고")
+                .build();
+
+        // when
+        chatService.send(request);
+
+        List<ChatMessageView> list = chatService.open(1l, 2l);
+        // then
+        assertThat(list.get(list.size()-1).getContext()).isEqualTo("{\"message\":\"메시지 좋고좋고좋고\",\"type\":\"TEXT\"}");
     }
 
 }

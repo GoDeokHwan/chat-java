@@ -2,10 +2,12 @@ package io.chat.java.api.domain.chat;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import io.chat.java.api.domain.chat.model.ChatMessageRequest;
 import io.chat.java.api.domain.chat.model.ChatMessageView;
 import io.chat.java.api.domain.chat.model.ChatRoomView;
 import io.chat.java.api.domain.user.UserService;
 import io.chat.java.api.domain.user.model.UserView;
+import io.chat.java.api.domain.websocket.MessageHandlerService;
 import io.chat.java.api.entity.chat.*;
 import io.chat.java.api.entity.user.User;
 import io.chat.java.api.entity.user.UserRepository;
@@ -28,11 +30,13 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserService userService;
+    private final MessageHandlerService messageHandlerService;
 
-    public ChatService(ChatRoomRepository chatRoomRepository, ChatMessageRepository chatMessageRepository, UserService userService) {
+    public ChatService(ChatRoomRepository chatRoomRepository, ChatMessageRepository chatMessageRepository, UserService userService, MessageHandlerService messageHandlerService) {
         this.chatRoomRepository = chatRoomRepository;
         this.chatMessageRepository = chatMessageRepository;
         this.userService = userService;
+        this.messageHandlerService = messageHandlerService;
     }
 
     public ChatRoomView create(Long id) {
@@ -102,6 +106,30 @@ public class ChatService {
                     .map(ChatMessage::toChatMessage)
                     .collect(Collectors.toList());
         }
+    }
+
+    public void send(ChatMessageRequest request) {
+        ChatRoom chatRoom = chatRoomRepository.findChatRoomById(request.getChatRoomId())
+                .orElseThrow(() -> new ApiException(ApiStatus.CHAT_ROOM_NOT_FOUND));
+        User user = userService.findByUserId(request.getUserId());
+
+        ChatMessage message = ChatMessage.builder()
+                .chatRoom(chatRoom)
+                .sendTime(LocalDateTime.now())
+                .sendUser(user)
+                .context(textMessage(request.getText()))
+                .build();
+
+        ChatMessageView cmv = chatMessageRepository.save(message).toChatMessage();
+
+        messageHandlerService.messageSend(chatRoom.getId(), cmv);
+
+        List<Long> userIds = chatRoom.getUsers()
+                .stream()
+                .map(User::getId)
+                .collect(Collectors.toList());
+
+        messageHandlerService.userMessageSend(userIds, cmv);
     }
 
     private String textMessage (String txt) {
