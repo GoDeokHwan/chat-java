@@ -12,14 +12,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/api/publish");
-        registry.setApplicationDestinationPrefixes("/api/subscribe");
+        registry.enableSimpleBroker("/api/subscribe");
+        registry.setApplicationDestinationPrefixes("/");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/api/webSocket").setAllowedOriginPatterns("*").withSockJS()
-            .setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1.3.0/dist/sockjs.min.js")
+        registry.addEndpoint("/api/webSocket")
+                .setAllowedOriginPatterns("*")
+                .withSockJS()
+                .setClientLibraryUrl("https://cdn.jsdelivr.net/npm/sockjs-client@1.3.0/dist/sockjs.min.js")
         ;
     }
 }

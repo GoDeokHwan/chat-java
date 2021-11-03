@@ -8,8 +8,7 @@ import org.springframework.messaging.support.GenericMessage;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.messaging.support.NativeMessageHeaderAccessor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionConnectedEvent;
-import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.socket.messaging.*;
 
 import java.util.List;
 import java.util.Map;
@@ -19,23 +18,34 @@ import java.util.Map;
 public class WebSocketEventListener {
 
     @EventListener
-    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-        MessageHeaderAccessor accessor = NativeMessageHeaderAccessor.getAccessor(event.getMessage(), SimpMessageHeaderAccessor.class);
-        GenericMessage genericMessage = (GenericMessage) accessor.getHeader("simpConnectMessage");
-//        Map nativeHeader = (Map) genericMessage.getHeaders().get("nativeHeaders");
-        String sessionId = (String) genericMessage.getHeaders().get("simpSessionId");
-
-        log.info("[Connected] websocket session id : {}", sessionId);
-
+    public void handleSessionConnectedEvent(SessionConnectedEvent event) {
+        StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+        log.info("SessionConnectedEvent : {}", sha);
     }
 
     @EventListener
-    public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-
-        String sessionId = headerAccessor.getSessionId();
-
-        log.info("[Disconnected] websocket session id : {}", sessionId);
+    public void handleSessionConnectEvent(SessionConnectEvent event) {
+        StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+        log.info("SessionConnectEvent : {}", sha);
     }
+
+    @EventListener
+    public void handleSessionDisconnectEvent(SessionDisconnectEvent event) {
+        StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+        log.info("SessionDisconnectEvent : {}", sha);
+    }
+
+    @EventListener
+    public void handleSessionSubscribeEvent(SessionSubscribeEvent event) {
+        StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+        log.info("SessionSubscribeEvent : {}", sha);
+    }
+
+    @EventListener
+    public void handleSessionUnsubscribeEvent(SessionUnsubscribeEvent event) {
+        StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
+        log.info("SessionUnsubscribeEvent : {}", sha);
+    }
+
 
 }
